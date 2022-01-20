@@ -2,20 +2,14 @@
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author ama7019
+ * @author Alex Anderson
+ * @author Luke Sloan
  */
 public class Frame extends javax.swing.JFrame {
-
+    private boolean correctName;
+    private boolean correctAge;
     /**
      * Creates new form Frame
      */
@@ -26,10 +20,16 @@ public class Frame extends javax.swing.JFrame {
             @Override
             public boolean verify(JComponent input) {
                 JTextField jtf = (JTextField) input;
-
-                Utility util = new Utility();
-                return util.checkName(jtf, jButton1);
                 
+                try {
+                    Utility util = new Utility();
+                    correctName = util.checkName(jtf, jButton1);
+                    return correctName;
+                } catch(Exception e) {
+                    System.out.println(e);
+                    correctName = false;
+                    return correctName;
+                }
             }
         });
 
@@ -38,8 +38,16 @@ public class Frame extends javax.swing.JFrame {
             public boolean verify(JComponent input) {
                 JTextField jtf = (JTextField) input;
 
-                Utility util = new Utility();
-                return util.checkName(jtf, jButton1);
+                try {
+                    Utility util = new Utility();
+                    correctAge = util.checkAge(jtf, jButton1);
+                    return correctAge;
+                } catch(Exception e) {
+                    System.out.println(e);
+                    correctAge = false;
+                    return correctAge;
+                }
+                
                 
             }
         });
@@ -135,12 +143,16 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
-        // TODO add your handling code here:
         try {
             Utility utility = new Utility();
             utility.checkAge(jTextField2, jButton1);
+            correctAge = true;
         } catch (Exception e) {
             System.out.println(e);
+            correctAge = false;
+        }
+        if(correctAge && correctName) {
+            jButton1.setEnabled(true);
         }
         
     }//GEN-LAST:event_jTextField2KeyReleased
@@ -149,8 +161,13 @@ public class Frame extends javax.swing.JFrame {
         try {
             Utility utility = new Utility();
             utility.checkName(jTextField1, jButton1);
+            correctName = true;
         } catch (Exception e) {
             System.out.println(e);
+            correctName = false;
+        }
+        if(correctAge && correctName) {
+            jButton1.setEnabled(true);
         }
     }//GEN-LAST:event_jTextField1KeyReleased
 
@@ -166,7 +183,6 @@ public class Frame extends javax.swing.JFrame {
             }
         });
     }
-// 48 = 0 57=9 A=65 a=97
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
